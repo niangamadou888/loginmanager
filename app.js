@@ -1,7 +1,7 @@
 (() => {
   // --- Simple client-side admin auth (not secure for real secrets) ---
   const ADMIN_STORAGE_KEY = 'lm_admin_logged_in';
-  const DEFAULT_ADMIN_PASSWORD = 'admin123'; // Change this in production
+  const DEFAULT_ADMIN_PASSWORD = 'tvDGjRnr970QnWo'; // Change this in production
 
   function isAdminLoggedIn() {
     return localStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
