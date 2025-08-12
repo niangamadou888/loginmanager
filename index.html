@@ -13,28 +13,14 @@
     <div class="wrap">
       <h1 class="title"><i class="fa-solid fa-people-group"></i> Sites Users Front</h1>
       <div class="controls">
-        <label class="control">
-          <span>Backend:</span>
-          <input id="backendInput" type="text" placeholder="https://api.example.com (blank = same origin)" />
-        </label>
-        <button id="loadSitesBtn" class="btn primary"><i class="fa-solid fa-rotate"></i> Load Sites</button>
+        <button id="loadSitesBtn" class="btn primary"><i class="fa-solid fa-rotate"></i> Reload Sites</button>
       </div>
     </div>
   </header>
 
   <main class="wrap">
     <section class="panel">
-      <div class="panel-head">
-        <div class="filters">
-          <input id="filterInput" class="input" type="text" placeholder="Filter sites by key or name..." />
-        </div>
-        <div class="fallback">
-          <input id="siteKeyInput" class="input" type="text" placeholder="Manual site key (fallback)" />
-          <button id="loadOneBtn" class="btn"><i class="fa-solid fa-magnifying-glass"></i> Load Users</button>
-        </div>
-      </div>
-
-      <div id="notice" class="notice muted">Set backend URL if needed, then Load Sites.</div>
+      <div id="notice" class="notice muted">Loading sites from the configured API...</div>
 
       <div id="sitesList" class="sites-list"></div>
     </section>
@@ -72,4 +58,3 @@
   <script src="app.js"></script>
 </body>
 </html>
-
