@@ -75,6 +75,40 @@
       </div>
     </section>
 
+    <section class="features">
+      <div class="wrap">
+        <div id="loginWrap" class="panel">
+          <div class="panel-head">
+            <div class="control">
+              <i class="fa-solid fa-user-shield"></i>
+              <span>Admin Login</span>
+            </div>
+          </div>
+          <div style="padding: 12px;">
+            <form id="adminLoginForm">
+              <div style="display:flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <input id="adminPassword" class="input" type="password" placeholder="Enter admin password" autocomplete="current-password" />
+                <button class="btn primary" type="submit">Login</button>
+                <span id="loginStatus" class="muted"></span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id="loggedInWrap" class="panel hidden">
+          <div class="panel-head">
+            <div class="control">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>You are logged in as admin</span>
+            </div>
+            <div class="controls">
+              <a href="sites.html" class="btn primary"><i class="fa-solid fa-diagram-project"></i> Go to Sites</a>
+              <button id="logoutBtn" class="btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     
   </main>
 
@@ -91,6 +125,10 @@
     </div>
   </footer>
 
-  
+  <script>
+    // Optional: set a custom admin password without rebuilding
+    // window.ADMIN_PASSWORD = 'change-me';
+  </script>
+  <script src="app.js"></script>
 </body>
 </html>

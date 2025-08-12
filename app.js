@@ -1,4 +1,97 @@
 (() => {
+  // --- Simple client-side admin auth (not secure for real secrets) ---
+  const ADMIN_STORAGE_KEY = 'lm_admin_logged_in';
+  const DEFAULT_ADMIN_PASSWORD = 'admin123'; // Change this in production
+
+  function isAdminLoggedIn() {
+    return localStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
+  }
+
+  function setAdminLoggedIn(value) {
+    if (value) localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
+    else localStorage.removeItem(ADMIN_STORAGE_KEY);
+  }
+
+  function getConfiguredAdminPassword() {
+    // Allow overriding via global variable, else fallback
+    const fromGlobal = typeof window !== 'undefined' && window.ADMIN_PASSWORD;
+    return (fromGlobal && String(fromGlobal)) || DEFAULT_ADMIN_PASSWORD;
+  }
+
+  function enforceAuthForSitesPage() {
+    const onSitesPage = !!document.getElementById('sitesList');
+    if (onSitesPage && !isAdminLoggedIn()) {
+      window.location.replace('index.html#login-required');
+    }
+  }
+
+  function toggleProtectedLinks() {
+    const sitesLinks = document.querySelectorAll('a[href="sites.html"], a.nav-link[href="sites.html"]');
+    sitesLinks.forEach((a) => {
+      if (!isAdminLoggedIn()) {
+        a.setAttribute('aria-disabled', 'true');
+        a.classList.add('hidden');
+      } else {
+        a.removeAttribute('aria-disabled');
+        a.classList.remove('hidden');
+      }
+    });
+  }
+
+  function wireLoginUI() {
+    const loginForm = document.getElementById('adminLoginForm');
+    const passwordInput = document.getElementById('adminPassword');
+    const loginStatus = document.getElementById('loginStatus');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        setAdminLoggedIn(false);
+        toggleProtectedLinks();
+        const loggedInWrap = document.getElementById('loggedInWrap');
+        const loginWrap = document.getElementById('loginWrap');
+        if (loggedInWrap) loggedInWrap.classList.add('hidden');
+        if (loginWrap) loginWrap.classList.remove('hidden');
+      });
+    }
+
+    if (!loginForm || !passwordInput) return;
+
+    // If already logged in, flip UI states
+    const loggedIn = isAdminLoggedIn();
+    const loggedInWrap = document.getElementById('loggedInWrap');
+    const loginWrap = document.getElementById('loginWrap');
+    if (loggedIn) {
+      if (loginWrap) loginWrap.classList.add('hidden');
+      if (loggedInWrap) loggedInWrap.classList.remove('hidden');
+    }
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const expected = getConfiguredAdminPassword();
+      const provided = String(passwordInput.value || '').trim();
+      if (!provided) {
+        if (loginStatus) loginStatus.textContent = 'Please enter the admin password.';
+        return;
+      }
+      if (provided !== expected) {
+        if (loginStatus) loginStatus.textContent = 'Invalid password.';
+        return;
+      }
+      setAdminLoggedIn(true);
+      toggleProtectedLinks();
+      if (loginStatus) loginStatus.textContent = '';
+      // If a redirect was intended, go to sites
+      window.location.href = 'sites.html';
+    });
+  }
+
+  // Initialize auth UI and protections early
+  enforceAuthForSitesPage();
+  toggleProtectedLinks();
+  wireLoginUI();
+
   const loadSitesBtn = document.getElementById('loadSitesBtn');
   const exportAllEmailsBtn = document.getElementById('exportAllEmailsBtn');
   const sitesList = document.getElementById('sitesList');
@@ -167,7 +260,7 @@
     }
   }
 
-  // Wire up events
+  // Wire up events (Sites page only)
   if (loadSitesBtn && sitesList && notice) {
     loadSitesBtn.addEventListener('click', loadSites);
     if (exportAllEmailsBtn) exportAllEmailsBtn.addEventListener('click', exportAllEmails);
