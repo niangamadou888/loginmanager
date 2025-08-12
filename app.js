@@ -2,6 +2,7 @@
   // --- Simple client-side admin auth (not secure for real secrets) ---
   const ADMIN_STORAGE_KEY = 'lm_admin_logged_in';
   const DEFAULT_ADMIN_PASSWORD = 'tvDGjRnr970QnWo'; // Change this in production
+  const DEFAULT_ADMIN_USERNAME = 'adminmanager';
 
   function isAdminLoggedIn() {
     return localStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
@@ -18,11 +19,9 @@
     return (fromGlobal && String(fromGlobal)) || DEFAULT_ADMIN_PASSWORD;
   }
 
-  function enforceAuthForSitesPage() {
-    const onSitesPage = !!document.getElementById('sitesList');
-    if (onSitesPage && !isAdminLoggedIn()) {
-      window.location.replace('index.html#login-required');
-    }
+  function getConfiguredAdminUsername() {
+    const fromGlobal = typeof window !== 'undefined' && window.ADMIN_USERNAME;
+    return (fromGlobal && String(fromGlobal)) || DEFAULT_ADMIN_USERNAME;
   }
 
   function toggleProtectedLinks() {
@@ -40,55 +39,59 @@
 
   function wireLoginUI() {
     const loginForm = document.getElementById('adminLoginForm');
+    const usernameInput = document.getElementById('adminUsername');
     const passwordInput = document.getElementById('adminPassword');
     const loginStatus = document.getElementById('loginStatus');
     const logoutBtn = document.getElementById('logoutBtn');
+    const loginWrap = document.getElementById('loginWrap');
+    const sitesPanelWrap = document.getElementById('sitesPanelWrap');
 
     if (logoutBtn) {
       logoutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         setAdminLoggedIn(false);
         toggleProtectedLinks();
-        const loggedInWrap = document.getElementById('loggedInWrap');
-        const loginWrap = document.getElementById('loginWrap');
-        if (loggedInWrap) loggedInWrap.classList.add('hidden');
+        if (sitesPanelWrap) sitesPanelWrap.classList.add('hidden');
         if (loginWrap) loginWrap.classList.remove('hidden');
       });
     }
 
-    if (!loginForm || !passwordInput) return;
+    // If login UI isn't present (e.g., on index), nothing to wire
+    if (!loginForm) return;
 
-    // If already logged in, flip UI states
-    const loggedIn = isAdminLoggedIn();
-    const loggedInWrap = document.getElementById('loggedInWrap');
-    const loginWrap = document.getElementById('loginWrap');
-    if (loggedIn) {
+    // If already logged in, show panel and maybe auto-load
+    if (isAdminLoggedIn()) {
       if (loginWrap) loginWrap.classList.add('hidden');
-      if (loggedInWrap) loggedInWrap.classList.remove('hidden');
+      if (sitesPanelWrap) sitesPanelWrap.classList.remove('hidden');
     }
 
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const expected = getConfiguredAdminPassword();
-      const provided = String(passwordInput.value || '').trim();
-      if (!provided) {
-        if (loginStatus) loginStatus.textContent = 'Please enter the admin password.';
+      const expectedUser = getConfiguredAdminUsername();
+      const expectedPass = getConfiguredAdminPassword();
+      const providedUser = String((usernameInput && usernameInput.value) || '').trim();
+      const providedPass = String((passwordInput && passwordInput.value) || '').trim();
+      if (!providedUser || !providedPass) {
+        if (loginStatus) loginStatus.textContent = 'Enter username and password.';
         return;
       }
-      if (provided !== expected) {
-        if (loginStatus) loginStatus.textContent = 'Invalid password.';
+      if (providedUser !== expectedUser || providedPass !== expectedPass) {
+        if (loginStatus) loginStatus.textContent = 'Invalid credentials.';
         return;
       }
       setAdminLoggedIn(true);
       toggleProtectedLinks();
       if (loginStatus) loginStatus.textContent = '';
-      // If a redirect was intended, go to sites
-      window.location.href = 'sites.html';
+      if (loginWrap) loginWrap.classList.add('hidden');
+      if (sitesPanelWrap) sitesPanelWrap.classList.remove('hidden');
+      // Auto-load sites now that we're logged in
+      if (typeof loadSites === 'function') {
+        loadSites();
+      }
     });
   }
 
   // Initialize auth UI and protections early
-  enforceAuthForSitesPage();
   toggleProtectedLinks();
   wireLoginUI();
 
@@ -264,7 +267,9 @@
   if (loadSitesBtn && sitesList && notice) {
     loadSitesBtn.addEventListener('click', loadSites);
     if (exportAllEmailsBtn) exportAllEmailsBtn.addEventListener('click', exportAllEmails);
-    // Auto-load only on sites page
-    loadSites();
+    // Auto-load only when logged in
+    if (isAdminLoggedIn()) {
+      loadSites();
+    }
   }
 })();
