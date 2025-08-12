@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sites Users Front</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="wrap">
+      <h1 class="title"><i class="fa-solid fa-people-group"></i> Sites Users Front</h1>
+      <div class="controls">
+        <label class="control">
+          <span>Backend:</span>
+          <input id="backendInput" type="text" placeholder="https://api.example.com (blank = same origin)" />
+        </label>
+        <button id="loadSitesBtn" class="btn primary"><i class="fa-solid fa-rotate"></i> Load Sites</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="panel-head">
+        <div class="filters">
+          <input id="filterInput" class="input" type="text" placeholder="Filter sites by key or name..." />
+        </div>
+        <div class="fallback">
+          <input id="siteKeyInput" class="input" type="text" placeholder="Manual site key (fallback)" />
+          <button id="loadOneBtn" class="btn"><i class="fa-solid fa-magnifying-glass"></i> Load Users</button>
+        </div>
+      </div>
+
+      <div id="notice" class="notice muted">Set backend URL if needed, then Load Sites.</div>
+
+      <div id="sitesList" class="sites-list"></div>
+    </section>
+  </main>
+
+  <template id="siteRowTpl">
+    <div class="site">
+      <div class="site-head">
+        <div>
+          <div class="site-key"></div>
+          <div class="site-meta"></div>
+        </div>
+        <div class="site-actions">
+          <button class="btn small load-users"><i class="fa-solid fa-users"></i> View Users</button>
+        </div>
+      </div>
+      <div class="users" hidden>
+        <div class="users-status muted">Loading...</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Provider</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
