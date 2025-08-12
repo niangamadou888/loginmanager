@@ -3,58 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sites Users Front</title>
+  <title>LoginManager — Free hosted auth pages, custom domains, and user management</title>
+  <meta name="description" content="Build and host login/signup pages in minutes. Customize to your brand, connect a custom domain, manage users, and send emails — free forever." />
+  <link rel="canonical" href="https://loginmanager.net/" />
+  <meta property="og:title" content="LoginManager — Free hosted auth pages, custom domains, and user management" />
+  <meta property="og:description" content="Build and host login/signup pages in minutes. Customize to your brand, connect a custom domain, manage users, and send emails — free forever." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://loginmanager.net/" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="header">
-    <div class="wrap">
-      <h1 class="title"><i class="fa-solid fa-people-group"></i> Sites Users Front</h1>
-      <div class="controls">
-        <button id="loadSitesBtn" class="btn primary"><i class="fa-solid fa-rotate"></i> Reload Sites</button>
-      </div>
+    <div class="wrap header-inner">
+    <a href="index.html" style="text-decoration: none; color: inherit;">  <h1 class="title"><i class="fa-solid fa-right-to-bracket"></i> LoginManager</h1></a>
+      <nav class="nav">
+        <a href="sites.html" class="nav-link">Sites</a>
+      </nav>
     </div>
   </header>
 
-  <main class="wrap">
-    <section class="panel">
-      <div id="notice" class="notice muted">Loading sites from the configured API...</div>
-
-      <div id="sitesList" class="sites-list"></div>
+  <main>
+    <section class="hero">
+      <div class="wrap hero-content">
+        <div class="hero-text">
+          <h2>Authentication in minutes, on your domain</h2>
+          <p>Create login/signup pages, customize to your brand, connect a custom domain, and manage users. Free forever.</p>
+          <div class="cta-buttons">
+            <a href="sites.html" class="btn primary"><i class="fa-solid fa-rocket"></i> Get started</a>
+            <a href="#features" class="btn">Explore features</a>
+          </div>
+        </div>
+      </div>
     </section>
+
+    <section id="features" class="features">
+      <div class="wrap">
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+            <h3>Easily create login/signup pages</h3>
+            <p>Spin up beautiful auth pages in minutes—no code or servers required.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-palette"></i></div>
+            <h3>Customize style to your brand</h3>
+            <p>Match colors, fonts, and components to your product’s visual style.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-link"></i></div>
+            <h3>Connect custom domain</h3>
+            <p>Use loginmanager.net or map your own domain with simple DNS setup.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+            <h3>Manage users</h3>
+            <p>View, search, and export users with activity and provider details.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <h3>Email marketing</h3>
+            <p>Send broadcasts and drip emails to onboard and re‑engage users.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <h3>Free forever</h3>
+            <p>Generous free plan for indie projects and early-stage startups.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    
   </main>
 
-  <template id="siteRowTpl">
-    <div class="site">
-      <div class="site-head">
-        <div>
-          <div class="site-key"></div>
-          <div class="site-meta"></div>
-        </div>
-        <div class="site-actions">
-          <button class="btn small load-users"><i class="fa-solid fa-users"></i> View Users</button>
-        </div>
-      </div>
-      <div class="users" hidden>
-        <div class="users-status muted">Loading...</div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Provider</th>
-              <th>Created</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+  <footer class="footer">
+    <div class="wrap">
+      <p class="muted">
+        A free project maintained by
+        <a href="https://smmscript.io" target="_blank" rel="noopener">SMM Script</a>
+        &amp;
+        <a href="https://cheapseo.io" target="_blank" rel="noopener">Cheap SEO</a>
+        • Source on
+        <a href="https://github.com/niangamadou888/loginmanager" target="_blank" rel="noopener">GitHub</a>
+      </p>
     </div>
-  </template>
+  </footer>
 
-  <script src="app.js"></script>
+  
 </body>
 </html>

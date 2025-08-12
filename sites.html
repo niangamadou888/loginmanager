@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sites • LoginManager</title>
+  <meta name="description" content="Manage your sites, view users, and export user emails as text." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="wrap header-inner">
+        <a href="index.html" style="text-decoration: none; color: inherit;"> <h1 class="title"><i class="fa-solid fa-right-to-bracket"></i> LoginManager</h1></a>
+      <nav class="nav">
+        <a href="sites.html" class="nav-link">Sites</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="panel-head">
+        <div class="control">
+          <i class="fa-solid fa-diagram-project"></i>
+          <span>Sites</span>
+        </div>
+        <div class="controls">
+          <button id="exportAllEmailsBtn" class="btn"><i class="fa-solid fa-file-arrow-down"></i> Export all emails</button>
+          <button id="loadSitesBtn" class="btn primary"><i class="fa-solid fa-rotate"></i> Reload Sites</button>
+        </div>
+      </div>
+
+      <div id="notice" class="notice muted">Loading sites from the configured API...</div>
+      <div id="sitesList" class="sites-list"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="muted">
+        A free project maintained by
+        <a href="https://smmscript.io" target="_blank" rel="noopener">SMM Script</a>
+        &amp;
+        <a href="https://cheapseo.io" target="_blank" rel="noopener">Cheap SEO</a>
+        • Source on
+        <a href="https://github.com/niangamadou888/sites-users-front" target="_blank" rel="noopener">GitHub</a>
+      </p>
+    </div>
+  </footer>
+
+  <template id="siteRowTpl">
+    <div class="site">
+      <div class="site-head">
+        <div>
+          <div class="site-key"></div>
+          <div class="site-meta"></div>
+        </div>
+        <div class="site-actions">
+          <button class="btn small load-users"><i class="fa-solid fa-users"></i> View Users</button>
+        </div>
+      </div>
+      <div class="users" hidden>
+        <div class="users-status muted">Loading...</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Provider</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
+
