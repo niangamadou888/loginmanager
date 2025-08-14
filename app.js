@@ -101,7 +101,7 @@
   const notice = document.getElementById('notice');
 
   // Fixed backend base URL
-  const API_BASE = 'https://smm-panel-q8q0.onrender.com';
+  const API_BASE = 'https://my.smm-panel.com';
 
   function fmtDate(s) {
     try { return new Date(s).toLocaleString(); } catch (_) { return s || '-'; }
